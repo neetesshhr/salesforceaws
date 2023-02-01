@@ -12,7 +12,7 @@ phases:
       - 'export PATH=$PATH:$ANT_HOME/bin'
       - 'wget https://ap16.salesforce.com/dwnld/SfdcAnt/salesforce_ant_52.0.zip'
       - 'unzip salesforce_ant_52.0.zip'
-      - 'cp ant-salesforce.jar /usr/share/ant/lib/'
+      - 'cp ant-salesforce.jar $ANT_HOME/lib/'
   build:
     commands:
       - 'ant build/build.xml'
