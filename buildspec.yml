@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       - 'ls'
-      - 'ant --version'
+      - 'ant -version'
       - 'ant -f build/build.xml'
 #   post_build:
 #     commands:
