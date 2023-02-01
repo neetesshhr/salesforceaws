@@ -15,7 +15,8 @@ phases:
       - 'cp ant-salesforce.jar $ANT_HOME/lib/'
   build:
     commands:
-      - 'ant build/build.xml'
+      - 'ls'
+      - 'ant --version'
 #   post_build:
 #     commands:
 #       - echo Build completed on `date`
