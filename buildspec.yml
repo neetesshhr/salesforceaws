@@ -6,13 +6,13 @@ phases:
       nodejs: latest
     commands:
       - 'npm install --global sfdx-cli'
-      - wget http://www-us.apache.org/dist//ant/binaries/apache-ant-1.10.8-bin.tar.gz
-      - tar -xzf apache-ant-1.10.8-bin.tar.gz
-      - export ANT_HOME=$PWD/apache-ant-1.10.8
-      - export PATH=$PATH:$ANT_HOME/bin
+      - 'wget http://www-us.apache.org/dist//ant/binaries/apache-ant-1.10.8-bin.tar.gz'
+      - 'tar -xzf apache-ant-1.10.8-bin.tar.gz'
+      - 'export ANT_HOME=$PWD/apache-ant-1.10.8'
+      - 'export PATH=$PATH:$ANT_HOME/bin'
   build:
     commands:
-      - ant -version
+      - 'ant -version'
 #   post_build:
 #     commands:
 #       - echo Build completed on `date`
