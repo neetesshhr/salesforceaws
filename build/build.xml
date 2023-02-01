@@ -1,0 +1,22 @@
+<project name="SFDX Deploy" default="deployCode" xmlns:sf="antlib:com.salesforce">
+<target name="runTestsOnlyWithApex">
+    
+    <if>
+       <contains string="${build.classes}" substring=".cls"/>
+       <then>
+          <sf:deploy username="${sf.username}" password="${sf.password}" 
+                    serverurl="${sf.serverurl}" deployroot="src" 
+                    testLevel="RunSpecifiedTests" runAllTests="false">
+             <runTest>${build.tests}</runTest>
+          </sf:deploy>
+       </then>
+    </if>
+ </target>
+
+<target name="deployCode">
+    <sf:retrieve username="${sf.username}" password="${sf.password}" 
+                 serverurl="${sf.serverurl}" retrieveTarget="src" 
+                 unpackaged="${basedir}/manifest/package.xml"/>
+    <antcall target="runTestsOnlyWithApex"/>
+ </target>
+ </project>
