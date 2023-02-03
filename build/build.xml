@@ -19,24 +19,29 @@
            <pathelement location="../ant-salesforce.jar" />        	
        </classpath>
    </taskdef>
-<target name="runTestsOnlyWithApex">   
-    <if>
-       <contains string="${build.classes}" substring=".cls"/>
-       <then>
-          <sf:deploy username="${sf.username}" password="${sf.password}" 
-                    serverurl="${sf.serverurl}" deployroot="src" 
-                    testLevel="RunSpecifiedTests" runAllTests="false">
-             <runTest>${build.tests}</runTest>
-          </sf:deploy>
-       </then>
-    </if>
- </target>
-
+   <target name="runTestsOnlyWithApex">
+    <loadfile property="tests" srcFile="optestlist.txt"/>
+    <sf:deploy username="${sf.username}" password="${sf.password}"
+      sessionId="${sf.sessionId}" serverurl="${sf.serverurl}"
+      deployroot="../src/" testLevel="RunSpecifiedTests" rollbackOnError="true">
+      <runTest>${tests}</runTest>
+     
+    </sf:deploy>
+    <delete file="optestlist.txt"/>
+  </target>
+  
+ <target name="generateTestList">
+  <xslt in="../manifest/package.xml" out="testlist.txt" style="testlist.xsl"/>
+  <exec dir="." executable="python">
+    <arg value="test.py"/>
+  </exec>
+</target>
 <target name="deployCode">
-   <echo message=" baedir is ${basedir}"/>
+   <echo message=" basedir is ${basedir}"/>
     <sf:retrieve username="${sf.username}" password="${sf.password}" 
                  serverurl="${sf.serverurl}" retrieveTarget="../force-app/main/default" 
                  unpackaged="../manifest/package.xml"/>
+    <antcall target="generateTestList"/>
     <antcall target="runTestsOnlyWithApex"/>
  </target>
  </project>
