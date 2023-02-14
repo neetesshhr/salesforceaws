@@ -38,7 +38,7 @@
               
             </else>
           </if>
-        <!-- <antcall target="Clean"/> -->
+        <antcall target="Clean"/>
     </target>
     <target name="Clean">
 
