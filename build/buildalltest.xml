@@ -1,0 +1,48 @@
+<project name="Salesforce Deployment" default="retrieveUnpackaged" xmlns:sf="antlib:com.salesforce">
+
+    <property file="build.properties"/>
+    <property environment="env"/>
+
+    <condition property="sf.username" value=""> <not> <isset property="sf.username"/> </not> </condition>
+    <condition property="sf.password" value=""> <not> <isset property="sf.password"/> </not> </condition>
+    <condition property="sf.sessionId" value=""> <not> <isset property="sf.sessionId"/> </not> </condition>
+   
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+ 
+        <classpath>
+            <pathelement location="../ant-salesforce.jar" />        	
+        </classpath>
+    </taskdef>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <property file="build.properties"/>
+    <property environment="env"/>
+    
+    <target name="retrieveUnpackaged">
+
+        <mkdir dir="../src"/>
+        <sf:retrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" retrieveTarget="../src/" unpackaged="../manifest/package.xml"/>
+       
+        <antcall target="runTests"/>
+    </target>
+
+    <target name="runTests">
+        <if>
+            <available file="../src/classes" type="dir" />
+            <then>
+              <echo message="Test classes  exists running tests..." />
+              <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployroot="../src/" runAllTests="true"/>
+
+            </then>
+            <else>
+              <echo message="Test Classes  does not exist skipping test..." />
+              
+            </else>
+          </if>
+        <!-- <antcall target="Clean"/> -->
+    </target>
+    <target name="Clean">
+
+        <delete dir="../src"/>
+    </target>
+
+</project>

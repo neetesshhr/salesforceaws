@@ -39,7 +39,7 @@
 <target name="deployCode">
    <echo message=" basedir is ${basedir}"/>
     <sf:retrieve username="${sf.username}" password="${sf.password}" 
-                 serverurl="${sf.serverurl}" retrieveTarget="../src/" 
+                 serverurl="${sf.serverurl}" retrieveTarget="../force-app/main/default" 
                  unpackaged="../manifest/package.xml"/>
     <antcall target="generateTestList"/>
     <antcall target="runTestsOnlyWithApex"/>
