@@ -35,6 +35,7 @@
             </then>
             <else>
               <echo message="Test Classes  does not exist skipping test..." />
+              <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="../src/" rollbackOnError="true"/>
               
             </else>
           </if>
