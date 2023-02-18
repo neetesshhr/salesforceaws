@@ -20,7 +20,8 @@ phases:
     commands:
       - 'ls'
       - 'ant -version'
-      - 'ant -f build/buildalltest.xml'
+      # - 'ant -f build/buildalltest.xml'
+      - 'sh shell.sh'
 #   post_build:
 #     commands:
 #       - echo Build completed on `date`
