@@ -4,7 +4,6 @@
     <property environment="env"/>
 
     <condition property="sf.username" value=""> <not> <isset property="sf.username"/> </not> </condition>
-    <condition property="sf.password" value=""> <not> <isset property="sf.password"/> </not> </condition>
     <condition property="sf.sessionId" value=""> <not> <isset property="sf.sessionId"/> </not> </condition>
    
     <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
@@ -18,9 +17,9 @@
     <property environment="env"/>
     
     <target name="retrieveUnpackaged">
-
+        <property name="jwtToken" value="${sf.jwtToken}" />
         <mkdir dir="../src"/>
-        <sf:retrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" retrieveTarget="../src/" unpackaged="../manifest/package.xml"/>
+        <sf:retrieve username="${sf.username}" serverurl="${sf.serverurl}" retrieveTarget="../src/" unpackaged="../manifest/package.xml" jwtToken="${jwtToken}" />
        
         <antcall target="runTests"/>
     </target>
@@ -29,13 +28,13 @@
         <if>
             <available file="../src/classes" type="dir" />
             <then>
-              <echo message="Test classes  exists running tests..." />
-              <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployroot="../src/" runAllTests="true"/>
+              <echo message="Test classes exists running tests..." />
+              <sf:deployJWT username="${sf.username}" serverurl="${sf.serverurl}" jwtClientId="${sf.jwtClientId}" jwtPrivateKeyFile="${sf.jwtPrivateKeyFile}" deployroot="../src/" runAllTests="true"/>
 
             </then>
             <else>
-              <echo message="Test Classes  does not exist skipping test..." />
-              <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="../src/" rollbackOnError="true"/>
+              <echo message="Test Classes does not exist skipping test..." />
+              <sf:deployJWT username="${sf.username}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" jwtClientId="${sf.jwtClientId}" jwtPrivateKeyFile="${sf.jwtPrivateKeyFile}" maxPoll="${sf.maxPoll}" deployRoot="../src/" rollbackOnError="true"/>
               
             </else>
           </if>
